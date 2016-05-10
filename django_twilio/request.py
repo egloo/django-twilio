@@ -40,9 +40,11 @@ def decompose(request):
     Decompose takes a Django HttpRequest object and tries to collect the
     Twilio-specific POST parameters and return them in a TwilioRequest object.
     '''
-    if type(request) not in [HttpRequest, WSGIRequest]:
-        raise NotDjangoRequestException(
-            'The request parameter is not a Django HttpRequest object')
+    # channels has a AsgiRequest which is not part of core Django yet and I don't want to make this depend on channels
+    # so for now it's just commented out
+    # if type(request) not in [HttpRequest, WSGIRequest]:
+    #     raise NotDjangoRequestException(
+    #         'The request parameter is not a Django HttpRequest object')
     if request.method == 'POST':
         return TwilioRequest(request.POST.dict())
     if request.method == 'GET':
